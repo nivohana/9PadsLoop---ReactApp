@@ -1,0 +1,11 @@
+.Pads{
+    display: inline-block;
+    box-sizing: border-box;
+    margin-top: 50px;
+    width: 600px;
+}
+
+.Buttons {
+    display: inline;
+    margin: 10px;
+}

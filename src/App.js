@@ -1,24 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
+import Pad from './components/LoopMachine/Pad/Pad';
+import Pads from './components/LoopMachine/Pads/Pads';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+const App = () => {
+  return(
+      <div className='App'>
+          <Pads />
+      </div>
   );
 }
 
