@@ -1,3 +1,10 @@
 .section{
    display: grid;
 }
+
+
+.record{
+   margin-top: 30px;
+   margin-bottom: 20px;
+   font-size: larger;
+}

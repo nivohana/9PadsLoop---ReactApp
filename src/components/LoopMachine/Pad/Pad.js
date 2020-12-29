@@ -20,7 +20,7 @@ export const Pad = ({ audioSrc, icon, globalCounter, globalCounterInit}) => {
     const [sound, setSound] = useState(new Howl(soundSettings));
 
     useEffect(() => {
-        if (!sound.playing() && status && globalCounter === 0) {
+        if (!sound.playing() && status && globalCounter === 1) {
             const trackId = sound.play()
             setTrack(trackId);
             console.log(`start play ${trackId}`)

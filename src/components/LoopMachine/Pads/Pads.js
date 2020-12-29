@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './Pads.module.css';
 import { Pad } from '../Pad/Pad';
 import * as Icon from 'react-feather';
-import {Record} from '../../Record/Record';
+
 
 
 export const Pads = () => {
@@ -26,6 +26,7 @@ export const Pads = () => {
 
     useEffect(() => {
         checkMaxInterval(globalCounter)
+        console.log(globalCounter)
     },[globalCounter])
 
     const checkMaxInterval = (globalCounter) => {
@@ -53,10 +54,6 @@ export const Pads = () => {
                     setIntervalStatus={setIntervalStatus}
                     globalCounterInit={globalCounterInit}
                     globalCounter={globalCounter} />)}
-            </div>
-            
-            <div className={styles.record} >
-               <Record />
             </div>
         </div>
     );
