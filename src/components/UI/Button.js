@@ -1,22 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './Button.module.css';
 
 
-const Button = (props) => {
-    // const [currentState , setCurrentState] = useState(false);
-
-    // const stateHandler = () =>{
-    //     setCurrentState( prevState => !prevState);
-    // }
-
-
+export const Button = ({clicked, children}) => {
     return (
-        <button onClick={props.clicked}>
-            {props.children}
+        <button className={styles.Button}
+            onClick={clicked}>
+            {children}
         </button>
     );
 
 }
 
 
-export default Button;

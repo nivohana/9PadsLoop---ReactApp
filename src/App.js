@@ -1,12 +1,11 @@
 import './App.css';
-import Pad from './components/LoopMachine/Pad/Pad';
-import Pads from './components/LoopMachine/Pads/Pads';
+import { LoopMachine } from './components/LoopMachine/LoopMachine';
 
 const App = () => {
-  return(
-      <div className='App'>
-          <Pads />
-      </div>
+  return (
+    <div className='App'>
+      <LoopMachine />
+    </div>
   );
 }
 

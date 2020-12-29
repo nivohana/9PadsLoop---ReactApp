@@ -1,113 +1,72 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Pad.module.css';
-import Button from '../../UI/Button';
-import { Play, Pause } from 'react-feather';
-import Switch from '@material-ui/core/Switch';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-
+import { Button } from '../../UI/Button';
+import { green, red } from '@material-ui/core/colors';
+import StopIcon from '@material-ui/icons/Stop';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import PauseIcon from '@material-ui/icons/Pause';
 import { Howl } from "howler";
 
-
-
-const Pad = (props) => {
-    // Handling ON/OFF state
-    const [state, setState] = useState({ status: false });
-
-    // Handling Record state
-    const [recordSound, setRecordSound] = useState({ statusRec: false });
-
-    const handleSwitchChange = (event) => {
-        setState({ ...state, [event.target.name]: event.target.checked });
-        if (!event.target.checked) {
-            sound.stop(myMusicID);
-        }
-    };
-
-
-
-    const recordHandler = (event) =>{
-        setState({ ...state, [event.target.name]: event.target.checked });
-    }
-
-
-    let sound = new Howl({
-        src: `./Audio/${props.AudioTrack}`,
-        html5: true,
+export const Pad = ({ audioSrc, icon, globalCounter, globalCounterInit}) => {
+    const soundSettings = {
+        src: `./Audio/${audioSrc}`,
         format: ['mp3'],
         loop: true,
         volume: 0.2,
-    });
-    var myMusicID;
-
+        autoplay: false,
+    }
+    const [status, setStatus] = useState(false);
+    const [track, setTrack] = useState();
+    const [sound, setSound] = useState(new Howl(soundSettings));
 
     useEffect(() => {
-        if (state.status) {
-            myMusicID = sound.play()
+        if (!sound.playing() && status && globalCounter === 0) {
+            const trackId = sound.play()
+            setTrack(trackId);
+            console.log(`start play ${trackId}`)
         }
-
-    }, [state])
-
-
+    }, [status, globalCounter])
 
     const startSound = () => {
-        if (state.status) {
-            sound.play(myMusicID)
-        }
+        setStatus(true);
+        globalCounterInit()
     }
-
 
     const pauseSound = () => {
-        if (state.status) {
-            sound.pause(myMusicID);
-        }
+        setStatus(false);
+        sound.pause(track)  
     }
 
+    const stopSound = () => {
+        setStatus(false);
+        sound.stop(track);
+    }
+  
 
     return (
-        <div className={styles.Pad}>
-            <div className={styles.Buttons} >
-                <div >
-                    <Typography component="div">
-                        <Grid component="label" container alignItems="center">
-                            <Grid item>Off</Grid>
-                            <Grid item>
-                                <Switch
-                                    label="On/Off"
-                                    checked={state.status}
-                                    onChange={handleSwitchChange}
-                                    color="primary"
-                                    name="status"
-                                    inputProps={{ "aria-label": "primary checkbox" }} />
+        <div className={styles.pad}>
+            <div >
+                <div className={styles.icon}>
+                    {icon}
+                </div>
 
-                            </Grid>
-                            <Grid item>On</Grid>
-                        </Grid>
-                    </Typography>
+                <div className={styles.buttonSection}>
+                    {status ?
+                        <Button clicked={pauseSound} >
+                            <PauseIcon fontSize="large" style={{ color: red[600] }} />
+                        </Button>
+                        :
+                        <Button clicked={startSound} >
+                            <PlayArrowIcon fontSize="large" style={{ color: green[500] }} />
+                        </Button>
+                    }
+                    <Button clicked={stopSound}>
+                        <StopIcon fontSize="large" />
+                    </Button>
                 </div>
-                <div style={{ margin: '10px' }}> {props.children} </div>
-                <div style={{ padding: '10px', display: 'flex', justifyContent: 'space-evenly' }}>
-                    <Button clicked={startSound} > <Play /> </Button>
-                    <Button clicked={pauseSound}> <Pause /> </Button>
-                </div>
-                <Typography component="div">
-                        <Grid component="label" container alignItems="center">
-                            <Grid item> Rec</Grid>
-                            <Grid item  >
-                                <Switch
-                                    label="On/Off"
-                                    checked={state.statusRec}
-                                    onChange={recordHandler}
-                                    color="Secondary"
-                                    name="statusRec"
-                                    inputProps={{ "aria-label": "primary checkbox" }} />
-                            </Grid>  
-                        </Grid>
-                    </Typography>
+
             </div>
-
         </div>
     );
 }
 
-export default Pad;

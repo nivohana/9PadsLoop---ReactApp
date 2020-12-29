@@ -1,11 +1,13 @@
-.Pads{
+.pads {
     display: inline-block;
     box-sizing: border-box;
-    margin-top: 50px;
+    margin-top: 20px;
     width: 600px;
 }
 
-.Buttons {
-    display: inline;
-    margin: 10px;
+.record{
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-size: larger;
 }
+

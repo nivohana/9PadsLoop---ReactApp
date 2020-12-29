@@ -1,9 +1,19 @@
-.Pad{
+.pad{
     width: 125px;
-    height: 180px;
+    height: 150px;
     padding: 1rem;
     border-radius: 5px;
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.26);
     display: inline-block;
     margin: 12px;
+}
+
+.icon{
+    margin: 10px;
+}
+
+.buttonSection{
+    margin-top: 28px;
+    display: flex;
+    justify-content: space-evenly;
 }

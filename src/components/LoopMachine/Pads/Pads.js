@@ -1,32 +1,64 @@
-import React, { Children } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Pads.module.css';
-import Pad from '../Pad/Pad';
+import { Pad } from '../Pad/Pad';
 import * as Icon from 'react-feather';
+import {Record} from '../../Record/Record';
 
 
-const Pads = (props) => {
+export const Pads = () => {
+    const SOUND_INTERVAL = 1000;
+    const CYCELS_LIMIT = 8;
     const pads = [
-    {id:'1' ,  Icon: <Icon.Camera />, Audio:'120_future_funk_beats_25.mp3'},
-    {id:'2' ,  Icon:<Icon.Radio /> , Audio:'120_stutter_breakbeats_16.mp3'},
-    {id:'3' ,  Icon:<Icon.Rss />, Audio:'Bass Warwick heavy funk groove on E 120 BPM.mp3' },
-    {id:'4' ,  Icon:<Icon.Star /> , Audio:'electric guitar coutry slide 120bpm - B.mp3'},
-    {id:'5' ,  Icon:<Icon.Target />, Audio:'FUD_120_StompySlosh.mp3' },
-    {id:'6' ,  Icon:<Icon.Umbrella /> , Audio:'GrooveB_120bpm_Tanggu.mp3'},
-    {id:'7' ,  Icon:<Icon.Music /> , Audio:'MazePolitics_120_Perc.mp3'},
-    {id:'8' ,  Icon:<Icon.Bell /> , Audio:'PAS3GROOVE1.03B.mp3'},
-    {id:'9' ,  Icon:<Icon.Volume /> , Audio:'SilentStar_120_Em_OrganSynth.mp3'},
+        { id: '1', icon: <Icon.Speaker size={'35px'} />, audio: '120_future_funk_beats_25.mp3' },
+        { id: '2', icon: <Icon.Radio size={'35px'} />, audio: '120_stutter_breakbeats_16.mp3' },
+        { id: '3', icon: <Icon.Rss size={'35px'} />, audio: 'Bass Warwick heavy funk groove on E 120 BPM.mp3' },
+        { id: '4', icon: <Icon.Star size={'35px'} />, audio: 'electric guitar coutry slide 120bpm - B.mp3' },
+        { id: '5', icon: <Icon.Target size={'35px'} />, audio: 'FUD_120_StompySlosh.mp3' },
+        { id: '6', icon: <Icon.Mic size={'35px'} />, audio: 'GrooveB_120bpm_Tanggu.mp3' },
+        { id: '7', icon: <Icon.Music size={'35px'} />, audio: 'MazePolitics_120_Perc.mp3' },
+        { id: '8', icon: <Icon.Bell size={'35px'} />, audio: 'PAS3GROOVE1.03B.mp3' },
+        { id: '9', icon: <Icon.Volume size={'35px'} />, audio: 'SilentStar_120_Em_OrganSynth.mp3' },
     ]
 
+    const [globalCounter, setGlobalCounter] = useState(0)
+    const [intervalId, setIntervalId] = useState(null)
+    const [intervalStatus, setIntervalStatus] = useState(true)
+
+    useEffect(() => {
+        checkMaxInterval(globalCounter)
+    },[globalCounter])
+
+    const checkMaxInterval = (globalCounter) => {
+        if (globalCounter === CYCELS_LIMIT) {
+            setGlobalCounter(0)
+        }
+    }
+
+    const globalCounterInit = () => {
+        if (intervalStatus) {
+            setIntervalStatus(false);
+            setInterval(() => {
+                setGlobalCounter(globalCounter => globalCounter + 1)
+            }, SOUND_INTERVAL)
+        }
+    }
 
     return (
-        <div className={styles.Pads}>
-            {pads.map( pad => {
-                return <Pad key={pad.id} AudioTrack={pad.Audio}> {pad.Icon}  </Pad> 
-            })
-            }
-         
-          </div>
+        <div>
+            <div className={styles.pads}>
+                {pads.map(pad => <Pad
+                    key={pad.id}
+                    audioSrc={pad.audio}
+                    icon={pad.icon}
+                    setIntervalStatus={setIntervalStatus}
+                    globalCounterInit={globalCounterInit}
+                    globalCounter={globalCounter} />)}
+            </div>
+            
+            <div className={styles.record} >
+               <Record />
+            </div>
+        </div>
     );
 }
 
-export default Pads;
